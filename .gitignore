@@ -1,0 +1,15 @@
+/vendor/
+/node_modules/
+/ .env
+/.env.*
+!.env.example
+/storage/*.key
+/storage/app/public
+/public/storage
+/bootstrap/cache/*.php
+/.idea/
+/.vscode/
+/npm-debug.log
+/yarn-error.log
+.DS_Store
+*.log

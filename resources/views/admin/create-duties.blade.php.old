@@ -1,0 +1,992 @@
+@extends('layouts.admin')@extends('layouts.admin')
+
+
+
+@section('title', 'Create Duties')@section('title', 'Manage Duties')
+
+
+
+@section('styles')@section('styles')
+
+<style><style>
+
+    .header-container {    .container {
+
+        display: flex;        max-width: 1200px;
+
+        justify-content: space-between;        margin: 0 auto;
+
+        align-items: center;        padding: 2rem;
+
+        margin-bottom: 20px;    }
+
+    }
+
+    .duties-table {
+
+    .search-container {        width: 100%;
+
+        margin-bottom: 20px;        border-collapse: separate;
+
+        display: flex;        border-spacing: 0;
+
+        gap: 10px;        margin-top: 1.5rem;
+
+    }        background: #fff;
+
+        border-radius: 10px;
+
+    .search-input, .filter-select {        overflow: hidden;
+
+        padding: 8px;        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        border: 1px solid #ddd;    }
+
+        border-radius: 4px;
+
+        flex: 1;    .duties-table th {
+
+    }        background: #1a1a4d;
+
+        color: #fff;
+
+    .table-container {        padding: 1rem;
+
+        background: #fff;        text-align: left;
+
+        border-radius: 10px;        font-weight: 600;
+
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);        font-size: 0.875rem;
+
+        overflow: hidden;    }
+
+        margin-top: 20px;
+
+    }    .duties-table td {
+
+        padding: 1rem;
+
+    table {        border-bottom: 1px solid #f1f1f1;
+
+        width: 100%;        color: #333;
+
+        border-collapse: collapse;    }
+
+    }
+
+    .duties-table tr:hover {
+
+    th {        background: #f8f9fa;
+
+        background: #1a1a4d;    }
+
+        color: #fff;
+
+        padding: 12px;    .search-filters {
+
+        text-align: left;        display: flex;
+
+    }        gap: 1rem;
+
+        margin-bottom: 2rem;
+
+    td {        padding: 1rem;
+
+        padding: 12px;        background: #fff;
+
+        border-bottom: 1px solid #eee;        border-radius: 8px;
+
+    }        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    }
+
+    .btn {
+
+        padding: 8px 16px;    .search-input, .filter-select {
+
+        border-radius: 4px;        padding: 0.75rem;
+
+        border: none;        border: 1px solid #ddd;
+
+        cursor: pointer;        border-radius: 6px;
+
+        font-weight: 500;        flex: 1;
+
+        font-size: 14px;    }
+
+    }
+
+    .page-title {
+
+    .btn-primary {        font-size: 1.5rem;
+
+        background: #1a1a4d;        font-weight: 600;
+
+        color: white;        color: #1a1a4d;
+
+    }        margin-bottom: 1rem;
+
+    }
+
+    .btn-secondary {
+
+        background: #6c757d;    .duties-form {
+
+        color: white;        background: #fff;
+
+    }        padding: 2rem;
+
+        border-radius: 10px;
+
+    .status-badge {        margin-bottom: 2rem;
+
+        padding: 4px 8px;        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        border-radius: 12px;    }
+
+        font-size: 12px;
+
+        font-weight: 500;    .form-group {
+
+    }        margin-bottom: 1.5rem;
+
+    }
+
+    .status-OPEN {
+
+        background: #e3f2fd;    .form-label {
+
+        color: #1565c0;        display: block;
+
+    }        margin-bottom: 0.5rem;
+
+        color: #1a1a4d;
+
+    .status-IN_PROGRESS {        font-weight: 500;
+
+        background: #fff3e0;    }
+
+        color: #ef6c00;
+
+    }    .form-control {
+
+        width: 100%;
+
+    .form-section {        padding: 0.75rem;
+
+        background: white;        border: 1px solid #ddd;
+
+        padding: 20px;        border-radius: 6px;
+
+        border-radius: 8px;    }
+
+        margin-bottom: 20px;
+
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);    .btn {
+
+    }        padding: 0.75rem 1.5rem;
+
+        border-radius: 6px;
+
+    .form-group {        font-weight: 600;
+
+        margin-bottom: 15px;        border: none;
+
+    }        cursor: pointer;
+
+        transition: all 0.2s;
+
+    .form-group label {    }
+
+        display: block;
+
+        margin-bottom: 5px;    .btn-primary {
+
+        font-weight: 500;        background: #1a1a4d;
+
+    }        color: white;
+
+    }
+
+    .form-control {
+
+        width: 100%;    .btn-secondary {
+
+        padding: 8px;        background: #6c757d;
+
+        border: 1px solid #ddd;        color: white;
+
+        border-radius: 4px;    }
+
+    }
+
+    .status-badge {
+
+    .actions {        padding: 0.5rem 1rem;
+
+        display: flex;        border-radius: 20px;
+
+        gap: 8px;        font-size: 0.875rem;
+
+    }        font-weight: 500;
+
+</style>        display: inline-flex;
+
+@endsection        align-items: center;
+
+    }
+
+@section('content')
+
+<div class="container">    .status-OPEN {
+
+    @if(session('success'))        background: #e3f2fd;
+
+        <div class="alert alert-success">        color: #1565c0;
+
+            {{ session('success') }}    }
+
+        </div>
+
+    @endif    .status-IN_PROGRESS {
+
+        background: #fff3e0;
+
+    @if(session('error'))        color: #ef6c00;
+
+        <div class="alert alert-danger">    }
+
+            {{ session('error') }}
+
+        </div>    .status-COMPLETED {
+
+    @endif        background: #e8f5e9;
+
+        color: #2e7d32;
+
+    <div class="header-container">    }
+
+        <h1>Manage Event Duties</h1>
+
+        <div class="actions">    .status-CANCELLED {
+
+            <button class="btn btn-primary" onclick="showCreateForm()">        background: #ffebee;
+
+                <i class="fas fa-plus"></i> Create New Duty        color: #c62828;
+
+            </button>    }
+
+            <button class="btn btn-secondary" onclick="refreshTable()">
+
+                <i class="fas fa-sync"></i> Refresh    .duties-actions {
+
+            </button>        display: flex;
+
+        </div>        gap: 1rem;
+
+    </div>        margin-top: 1rem;
+
+    }
+
+    <div class="search-container">
+
+        <input type="text" class="search-input" placeholder="Search duties...">    .alert {
+
+        <select class="filter-select">        padding: 1rem;
+
+            <option value="">All Statuses</option>        margin-bottom: 1rem;
+
+            <option value="OPEN">Open</option>        border-radius: 6px;
+
+            <option value="IN_PROGRESS">In Progress</option>    }
+
+            <option value="UNDER_REVIEW">Under Review</option>
+
+            <option value="CERTIFIED">Certified</option>    .alert-success {
+
+            <option value="COMPLETED">Completed</option>        background: #d4edda;
+
+            <option value="CANCELLED">Cancelled</option>        color: #155724;
+
+        </select>        border: 1px solid #c3e6cb;
+
+        <input type="date" class="filter-select">    }
+
+    </div>
+
+    .alert-danger {
+
+    <div class="form-section" id="createDutyForm" style="display: none;">        background: #f8d7da;
+
+        <h2>Create New Duty</h2>        color: #721c24;
+
+        <form action="{{ route('admin.duties.store') }}" method="POST">        border: 1px solid #f5c6cb;
+
+            @csrf    }
+
+            <div class="form-group"></style>
+
+                <label for="title">Title</label>@endsection
+
+                <input type="text" class="form-control" id="title" name="title" required>
+
+            </div>@section('content')
+
+<div class="container">
+
+            <div class="form-group">    @if(session('success'))
+
+                <label for="description">Description</label>    <div class="alert alert-success">
+
+                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>        {{ session('success') }}
+
+            </div>    </div>
+
+    @endif
+
+            <div class="form-group">
+
+                <label for="duty_date">Date</label>    @if(session('error'))
+
+                <input type="date" class="form-control" id="duty_date" name="duty_date" required>    <div class="alert alert-danger">
+
+            </div>        {{ session('error') }}
+
+    </div>
+
+            <div class="form-group">    @endif
+
+                <label for="start_time">Start Time</label>
+
+                <input type="time" class="form-control" id="start_time" name="start_time" required>    <div class="duties-header">
+
+            </div>        <h1>Manage Event Duties</h1>
+
+        <div class="duties-actions">
+
+            <div class="form-group">            <button class="btn btn-primary" onclick="showCreateForm()">
+
+                <label for="end_time">End Time</label>                <i class="fas fa-plus"></i>
+
+                <input type="time" class="form-control" id="end_time" name="end_time" required>                Create New Duty
+
+            </div>            </button>
+
+            <button class="btn btn-secondary" onclick="refreshTable()">
+
+            <div class="form-group">                <i class="fas fa-sync"></i>
+
+                <label for="number_of_participants">Number of Participants</label>                Refresh
+
+                <input type="number" class="form-control" id="number_of_participants" name="number_of_participants" min="0" required>            </button>
+
+            </div>        </div>
+
+    </div>
+
+            <div class="actions">
+
+                <button type="submit" class="btn btn-primary">Create Duty</button>    <div class="search-filters">
+
+                <button type="button" class="btn btn-secondary" onclick="hideCreateForm()">Cancel</button>        <input type="text" class="search-input" placeholder="Search duties...">
+
+            </div>        <select class="filter-select">
+
+        </form>            <option value="">All Statuses</option>
+
+    </div>            <option value="OPEN">Open</option>
+
+            <option value="IN_PROGRESS">In Progress</option>
+
+    <div class="table-container">            <option value="UNDER_REVIEW">Under Review</option>
+
+        <table>            <option value="CERTIFIED">Certified</option>
+
+            <thead>            <option value="COMPLETED">Completed</option>
+
+                <tr>            <option value="CANCELLED">Cancelled</option>
+
+                    <th>Title</th>        </select>
+
+                    <th>Date</th>        <input type="date" class="filter-select">
+
+                    <th>Time</th>    </div>
+
+                    <th>Participants</th>
+
+                    <th>Status</th>    <div class="duties-form" id="createDutyForm" style="display: none;">
+
+                    <th>Actions</th>        <h2 class="page-title">Create New Duty</h2>
+
+                </tr>        <form action="{{ route('admin.duties.store') }}" method="POST">
+
+            </thead>            @csrf
+
+            <tbody>            <div class="form-group">
+
+                @forelse($duties as $duty)                <label class="form-label" for="title">Title</label>
+
+                <tr>                <input class="form-control" type="text" id="title" name="title" required>
+
+                    <td>{{ $duty->title }}</td>            </div>
+
+                    <td>{{ $duty->duty_date->format('M d, Y') }}</td>
+
+                    <td>{{ $duty->start_time }} - {{ $duty->end_time }}</td>            <div class="form-group">
+
+                    <td>{{ $duty->number_of_participants }}</td>                <label class="form-label" for="description">Description</label>
+
+                    <td>                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+
+                        <span class="status-badge status-{{ $duty->status }}">            </div>
+
+                            {{ str_replace('_', ' ', $duty->status) }}
+
+                        </span>            <div class="form-group">
+
+                    </td>                <label class="form-label" for="duty_date">Date</label>
+
+                    <td class="actions">                <input class="form-control" type="date" id="duty_date" name="duty_date" required>
+
+                        <a href="{{ route('admin.duties.edit', $duty->event_id) }}" class="btn btn-primary">Edit</a>            </div>
+
+                        <form action="{{ route('admin.duties.destroy', $duty->event_id) }}" method="POST" style="display: inline;">
+
+                            @csrf            <div class="form-group">
+
+                            @method('DELETE')                <label class="form-label" for="start_time">Start Time</label>
+
+                            <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure you want to delete this duty?')">Delete</button>                <input class="form-control" type="time" id="start_time" name="start_time" required>
+
+                        </form>            </div>
+
+                    </td>
+
+                </tr>            <div class="form-group">
+
+                @empty                <label class="form-label" for="end_time">End Time</label>
+
+                <tr>                <input class="form-control" type="time" id="end_time" name="end_time" required>
+
+                    <td colspan="6" class="text-center">No duties found</td>            </div>
+
+                </tr>
+
+                @endforelse            <div class="form-group">
+
+            </tbody>                <label class="form-label" for="number_of_participants">Number of Participants</label>
+
+        </table>                <input class="form-control" type="number" id="number_of_participants" name="number_of_participants" min="0" required>
+
+            </div>
+
+        @if($duties->hasPages())
+
+            <div class="pagination-container">            <div class="duties-actions">
+
+                {{ $duties->links() }}                <button type="submit" class="btn btn-primary">Create Duty</button>
+
+            </div>                <button type="button" class="btn btn-secondary" onclick="hideCreateForm()">Cancel</button>
+
+        @endif            </div>
+
+    </div>        </form>
+
+</div>    </div>
+
+@endsection
+
+    <div class="duties-table">
+
+@section('scripts')        <table>
+
+<script>            <thead>
+
+function showCreateForm() {                <tr>
+
+    document.getElementById('createDutyForm').style.display = 'block';                    <th>Title</th>
+
+}                    <th>Date</th>
+
+                    <th>Time</th>
+
+function hideCreateForm() {                    <th>Participants</th>
+
+    document.getElementById('createDutyForm').style.display = 'none';                    <th>Status</th>
+
+}                    <th>Actions</th>
+
+                </tr>
+
+function refreshTable() {            </thead>
+
+    window.location.reload();            <tbody>
+
+}                @forelse($duties as $duty)
+
+</script>                <tr>
+
+@endsection                    <td>{{ $duty->title }}</td>
+                    <td>{{ $duty->duty_date->format('M d, Y') }}</td>
+                    <td>{{ $duty->start_time }} - {{ $duty->end_time }}</td>
+                    <td>{{ $duty->number_of_participants }}</td>
+                    <td><span class="status-badge status-{{ $duty->status }}">{{ str_replace('_', ' ', $duty->status) }}</span></td>
+                    <td class="duties-actions">
+                        <a href="{{ route('admin.duties.edit', $duty->event_id) }}" class="btn btn-primary">Edit</a>
+                        <form action="{{ route('admin.duties.destroy', $duty->event_id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure you want to delete this duty?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center">No duties found</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    .duty-details.active {
+        display: block;
+    }
+
+    .duty-details h3 {
+        margin: 0 0 1.5rem 0;
+        color: #1a1a4d;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .detail-row {
+        margin: 1rem 0;
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        min-width: 150px;
+        color: #1a1a4d;
+    }
+
+    .detail-value {
+        color: #555;
+        flex: 1;
+        line-height: 1.5;
+    }
+
+    /* Status Badge Styles */
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .status-badge::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    .status-OPEN {
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+    .status-OPEN::before {
+        background: #1565c0;
+    }
+
+    .status-IN_PROGRESS {
+        background: #fff3e0;
+        color: #ef6c00;
+    }
+    .status-IN_PROGRESS::before {
+        background: #ef6c00;
+    }
+
+    .status-UNDER_REVIEW {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+    .status-UNDER_REVIEW::before {
+        background: #2e7d32;
+    }
+
+    .status-CERTIFIED { 
+        background: #f3e5f5; 
+        color: #7b1fa2; 
+    }
+    .status-COMPLETED { 
+        background: #e8eaf6; 
+        color: #3f51b5; 
+    }
+    .status-CANCELLED { 
+        background: #ffebee; 
+        color: #c62828; 
+    }
+    .btn {
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9em;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+    }
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+    .btn-sm {
+        padding: 6px 10px;
+        font-size: 0.85em;
+    }
+    .btn-primary {
+        background: #1a1a4d;
+        color: white;
+    }
+    .btn-success {
+        background: #2e7d32;
+        color: white;
+    }
+    .btn-info {
+        background: #1565c0;
+        color: white;
+    }
+    .btn-warning {
+        background: #ef6c00;
+        color: white;
+    }
+    .btn-danger {
+        background: #c62828;
+        color: white;
+    }
+    .form-control {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        font-size: 0.9em;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #1a1a4d;
+        box-shadow: 0 0 0 2px rgba(26,26,77,0.1);
+    }
+    .alert {
+        padding: 12px 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+    .alert-success {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #a5d6a7;
+    }
+    .text-center {
+        text-align: center;
+    }
+</style>
+@endsection
+
+@section('content')
+    <div class="duties-header">
+        <h2>Event Duties</h2>
+        <div class="duties-actions">
+            <a href="{{ route('admin.create-duties') }}" class="btn btn-primary">Refresh</a>
+            <button id="toggleCreate" class="btn btn-success">Create Duty</button>
+        </div>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <div class="search-filter" style="margin-top:12px;display:flex;gap:12px;align-items:center;">
+        <form method="GET" action="{{ route('admin.create-duties') }}" style="display:flex;gap:8px;align-items:center;">
+            <input type="text" name="search" placeholder="Search title/description/id" value="{{ $search ?? '' }}" class="form-control">
+            <select name="status" class="form-control">
+                <option value="">All statuses</option>
+                <option value="OPEN" {{ (isset($status) && $status=='OPEN')? 'selected': '' }}>OPEN</option>
+                <option value="IN_PROGRESS" {{ (isset($status) && $status=='IN_PROGRESS')? 'selected': '' }}>IN_PROGRESS</option>
+                <option value="UNDER_REVIEW" {{ (isset($status) && $status=='UNDER_REVIEW')? 'selected': '' }}>UNDER_REVIEW</option>
+                <option value="CERTIFIED" {{ (isset($status) && $status=='CERTIFIED')? 'selected': '' }}>CERTIFIED</option>
+                <option value="COMPLETED" {{ (isset($status) && $status=='COMPLETED')? 'selected': '' }}>COMPLETED</option>
+                <option value="CANCELLED" {{ (isset($status) && $status=='CANCELLED')? 'selected': '' }}>CANCELLED</option>
+            </select>
+            <button class="btn btn-secondary">Filter</button>
+        </form>
+    </div>
+
+    <div id="createForm" class="duties-form" style="display:none;">
+        <form method="POST" action="{{ route('admin.duties.store') }}">
+            @csrf
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <input name="title" placeholder="Title" class="form-control" required>
+                <input name="duty_date" type="date" class="form-control" required>
+                <input name="start_time" type="time" class="form-control" required>
+                <input name="end_time" type="time" class="form-control" required>
+                <input name="number_of_participants" type="number" min="0" class="form-control" placeholder="Number of participants">
+                <select name="status" class="form-control">
+                    <option value="OPEN">OPEN</option>
+                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    <option value="UNDER_REVIEW">UNDER_REVIEW</option>
+                    <option value="CERTIFIED">CERTIFIED</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                </select>
+            </div>
+            <div style="margin-top:8px;">
+                <textarea name="description" class="form-control" placeholder="Description" required></textarea>
+            </div>
+            <div style="margin-top:8px;text-align:right;">
+                <button class="btn btn-primary">Create Duty</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="duties-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Participants</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($duties as $duty)
+                <tr class="duty-row" data-duty="{{ json_encode($duty) }}">
+                    <td>{{ $duty->event_id }}</td>
+                    <td>{{ $duty->title }}</td>
+                    <td>{{ optional($duty->duty_date)->format('M d, Y') }}</td>
+                    <td>{{ $duty->start_time }} - {{ $duty->end_time }}</td>
+                    <td>{{ $duty->number_of_participants }}</td>
+                    <td><span class="status-badge status-{{ $duty->status }}">{{ $duty->status }}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-info view-duty">View</button>
+                        <a href="{{ route('admin.duties.edit', $duty->event_id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <form method="POST" action="{{ route('admin.duties.destroy', $duty->event_id) }}" style="display:inline-block;margin-left:6px;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this duty?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="7">No duties found.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <div style="margin-top:12px;">{{ $duties->links() }}</div>
+
+    <!-- Duty Details Section -->
+    <div id="dutyDetails" class="duty-details">
+        <h3>Duty Details</h3>
+        <div class="detail-row">
+            <span class="detail-label">ID:</span>
+            <span class="detail-value" id="detail-id"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Title:</span>
+            <span class="detail-value" id="detail-title"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Date:</span>
+            <span class="detail-value" id="detail-date"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Time:</span>
+            <span class="detail-value" id="detail-time"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Participants:</span>
+            <span class="detail-value" id="detail-participants"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Status:</span>
+            <span class="detail-value" id="detail-status"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Description:</span>
+            <span class="detail-value" id="detail-description"></span>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+<script>
+document.getElementById('toggleCreate').addEventListener('click', function() {
+    const el = document.getElementById('createForm');
+    el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+});
+
+// Handle duty details view
+document.querySelectorAll('.view-duty').forEach(button => {
+    button.addEventListener('click', function() {
+        const row = this.closest('tr');
+        const duty = JSON.parse(row.dataset.duty);
+        const details = document.getElementById('dutyDetails');
+        
+        // Update details
+        document.getElementById('detail-id').textContent = duty.event_id;
+        document.getElementById('detail-title').textContent = duty.title;
+        document.getElementById('detail-date').textContent = new Date(duty.duty_date).toLocaleDateString();
+        document.getElementById('detail-time').textContent = `${duty.start_time} - ${duty.end_time}`;
+        document.getElementById('detail-participants').textContent = duty.number_of_participants;
+        document.getElementById('detail-status').textContent = duty.status;
+        document.getElementById('detail-description').textContent = duty.description;
+
+        // Show details section
+        details.classList.add('active');
+        
+        // Scroll to details
+        details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+});
+</script>
+@endsection
+
+@section('content')
+    <div class="duties-header">
+        <h2>Event Duties</h2>
+        <div class="duties-actions">
+            <a href="{{ route('admin.create-duties') }}" class="btn btn-primary">Refresh</a>
+            <button id="toggleCreate" class="btn btn-success">Create Duty</button>
+        </div>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <div class="search-filter" style="margin-top:12px;display:flex;gap:12px;align-items:center;">
+        <form method="GET" action="{{ route('admin.create-duties') }}" style="display:flex;gap:8px;align-items:center;">
+            <input type="text" name="search" placeholder="Search title/description/id" value="{{ $search ?? '' }}" class="form-control">
+            <select name="status" class="form-control">
+                <option value="">All statuses</option>
+                <option value="OPEN" {{ (isset($status) && $status=='OPEN')? 'selected': '' }}>OPEN</option>
+                <option value="IN_PROGRESS" {{ (isset($status) && $status=='IN_PROGRESS')? 'selected': '' }}>IN_PROGRESS</option>
+                <option value="UNDER_REVIEW" {{ (isset($status) && $status=='UNDER_REVIEW')? 'selected': '' }}>UNDER_REVIEW</option>
+                <option value="CERTIFIED" {{ (isset($status) && $status=='CERTIFIED')? 'selected': '' }}>CERTIFIED</option>
+                <option value="COMPLETED" {{ (isset($status) && $status=='COMPLETED')? 'selected': '' }}>COMPLETED</option>
+                <option value="CANCELLED" {{ (isset($status) && $status=='CANCELLED')? 'selected': '' }}>CANCELLED</option>
+            </select>
+            <button class="btn btn-secondary">Filter</button>
+        </form>
+    </div>
+
+    <div id="createForm" class="duties-form" style="display:none;">
+        <form method="POST" action="{{ route('admin.duties.store') }}">
+            @csrf
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <input name="title" placeholder="Title" class="form-control" required>
+                <input name="duty_date" type="date" class="form-control" required>
+                <input name="start_time" type="time" class="form-control" required>
+                <input name="end_time" type="time" class="form-control" required>
+                <input name="number_of_participants" type="number" min="0" class="form-control" placeholder="Number of participants">
+                <select name="status" class="form-control">
+                    <option value="OPEN">OPEN</option>
+                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    <option value="UNDER_REVIEW">UNDER_REVIEW</option>
+                    <option value="CERTIFIED">CERTIFIED</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                </select>
+            </div>
+            <div style="margin-top:8px;">
+                <textarea name="description" class="form-control" placeholder="Description" required></textarea>
+            </div>
+            <div style="margin-top:8px;text-align:right;">
+                <button class="btn btn-primary">Create Duty</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="duties-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Participants</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($duties as $duty)
+                <tr class="duty-row" data-duty="{{ json_encode($duty) }}">
+                    <td>{{ $duty->event_id }}</td>
+                    <td>{{ $duty->title }}</td>
+                    <td>{{ optional($duty->duty_date)->format('M d, Y') }}</td>
+                    <td>{{ $duty->start_time }} - {{ $duty->end_time }}</td>
+                    <td>{{ $duty->number_of_participants }}</td>
+                    <td><span class="status-badge status-{{ $duty->status }}">{{ $duty->status }}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-info view-duty">View</button>
+                        <a href="{{ route('admin.duties.edit', $duty->event_id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <form method="POST" action="{{ route('admin.duties.destroy', $duty->event_id) }}" style="display:inline-block;margin-left:6px;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this duty?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="7" class="text-center">No duties found.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <div style="margin-top:12px;">{{ $duties->links() }}</div>
+
+@endsection
+
+@section('scripts')
+<script>
+document.getElementById('toggleCreate').addEventListener('click', function() {
+    const el = document.getElementById('createForm');
+    el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+});
+
+// Handle duty details view
+document.querySelectorAll('.view-duty').forEach(button => {
+    button.addEventListener('click', function() {
+        const row = this.closest('tr');
+        const duty = JSON.parse(row.dataset.duty);
+        const details = document.getElementById('dutyDetails');
+        
+        // Update details
+        document.getElementById('detail-id').textContent = duty.event_id;
+        document.getElementById('detail-title').textContent = duty.title;
+        document.getElementById('detail-date').textContent = new Date(duty.duty_date).toLocaleDateString();
+        document.getElementById('detail-time').textContent = `${duty.start_time} - ${duty.end_time}`;
+        document.getElementById('detail-participants').textContent = duty.number_of_participants;
+        document.getElementById('detail-status').textContent = duty.status;
+        document.getElementById('detail-description').textContent = duty.description;
+
+        // Show details section
+        details.classList.add('active');
+        
+        // Scroll to details
+        details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+});
+</script>
+@endsection

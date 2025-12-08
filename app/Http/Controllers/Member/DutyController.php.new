@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers\Member;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\EventDuty;
+use App\Models\Participant;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class DutyController extends Controller
+{
+    public function index()
+    {
+        try {
+            $student = Auth::guard('student')->user();
+
+            // Get all IN_PROGRESS duties where the current student is registered
+            $duties = EventDuty::where('status', 'IN_PROGRESS')
+                ->whereExists(function ($query) use ($student) {
+                    $query->select(DB::raw(1))
+                        ->from('Participants')
+                        ->whereColumn('Participants.event_id', 'Event_Duty.event_id')
+                        ->where('Participants.user_id', $student->user_id);
+                })
+                ->orderBy('duty_date', 'asc')
+                ->orderBy('start_time', 'asc')
+                ->get();
+
+            foreach ($duties as $duty) {
+                $duty->registered_count = $duty->participants()->count();
+                
+                // Get team leader info from participants
+                $teamLeader = Participant::where('event_id', $duty->event_id)
+                    ->where('team_leader', 1)
+                    ->first();
+
+                if ($teamLeader) {
+                    $duty->team_leader_name = $teamLeader->first_name . ' ' . $teamLeader->last_name;
+                } elseif (!$duty->team_leader_name) {
+                    $duty->team_leader_name = null;
+                }
+            }
+
+            return view('member.member-duties', compact('duties'));
+        } catch (\Exception $e) {
+            \Log::error('Error fetching member duties: ' . $e->getMessage());
+            return view('member.member-duties', [
+                'duties' => collect([]),
+                'error' => 'Unable to fetch duties at this time. Please try again later.'
+            ]);
+        }
+    }
+}

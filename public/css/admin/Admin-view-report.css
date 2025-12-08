@@ -1,0 +1,315 @@
+/* GENERAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #FFF8DC;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(to right, #000066, #191970);
+  color: #FFD700;
+  display: flex;
+  align-items: center;
+  padding: 15px 40px;
+  border-bottom: 3px solid #8000FF;
+}
+
+.logo {
+  height: 60px;
+  margin-right: 15px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  display: flex;
+  height: calc(100vh - 90px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: linear-gradient(to bottom, #000066, #0A0A40);
+  width: 240px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-title {
+  color: #FFD700;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.menu {
+  list-style: none;
+  width: 100%;
+}
+
+.menu li {
+  color: white;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu li a.menu-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.menu li a.menu-link img.icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 12px;
+  filter: brightness(0) invert(1);
+}
+
+.menu li:hover,
+.menu li.active {
+  background-color: #FFD700;
+  color: black;
+  font-weight: bold;
+}
+
+.menu li.active img.icon,
+.menu li:hover img.icon {
+  filter: brightness(0);
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+  background-color: #FFD700;
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 30px;
+  margin-top: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #ffea00;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+/* ===== MAIN CONTENT ===== */
+/* ✅ CONTENT AREA */
+.content {
+  flex: 1;
+  padding: 24px 36px;
+  transition: filter 0.25s ease;
+  background-color: var(--page);
+}
+
+.content.blur {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.create-header {
+  background: linear-gradient(to right, #000066, #191970); /* Deep blue gradient */
+  color: #FFD700; /* Gold text */
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 16px;
+  border-radius: 10px; /* Soft corners */
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+/* ===== REPORT LIST ===== */
+.report-row {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.report-info {
+  font-weight: 600;
+  color: #1f2a44;
+}
+
+.report-info .date {
+  color: #64748b;
+  font-weight: 400;
+  margin-left: 15px;
+}
+/* ===== BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.action-buttons button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* View Report - BLUE */
+.view-btn {
+  background-color: #2563eb;
+  color: white;
+}
+.view-btn:hover {
+  background-color: #1e40af;
+}
+
+/* Release Certificate - blue */
+.release-btn {
+  background-color: #2563eb;
+  color: white;
+}
+.release-btn:hover {
+  background-color: #1e40af;
+}
+
+/* Mark as Complete - GREEN */
+.complete-btn {
+  background-color:#10b981;
+  color: white;
+}
+.complete-btn:hover {
+  background-color: #059669;
+}
+
+
+/* ===== MODAL BACKGROUND ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== MODAL BOX ===== */
+.modal-content {
+  background: white;
+  width: 420px;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content h2,
+.modal-content h3 {
+  text-align: center;
+  color: #1f2a44;
+  margin-bottom: 20px;
+}
+
+/* ===== MODAL FORM ELEMENTS ===== */
+.modal-content label {
+  display: block;
+  font-weight: 600;
+  color: #1f2a44;
+  margin-bottom: 6px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  resize: none;
+  font-size: 14px;
+  background-color: #f9fafb;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ===== MODAL BUTTONS ===== */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.confirm-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.confirm-btn:hover {
+  background-color: #1e3a8a;
+}
+
+.close-btn {
+  background-color: #64748b;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #475569;
+}
+
+/* ===== CONFIRM BOX STYLE ===== */
+.confirm-box {
+  text-align: center;
+}
