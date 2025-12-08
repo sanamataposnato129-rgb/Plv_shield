@@ -43,8 +43,12 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 # Nginx config
 RUN mkdir -p /run/nginx
 COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-EXPOSE 80
+# Allow container runtime to define PORT (Render sets PORT env). Default to 80.
+ENV PORT=80
+EXPOSE ${PORT}
 
-# Start both php-fpm and nginx in foreground
-CMD php-fpm -D && nginx -g "daemon off;"
+# Start via entrypoint which substitutes the port and runs services
+CMD ["/usr/local/bin/docker-entrypoint.sh"]
