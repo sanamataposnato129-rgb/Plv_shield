@@ -5,17 +5,19 @@
 # 3) production: final image with php-fpm + nginx
 
 ######### Composer stage #########
-FROM composer:2 AS composer
+FROM php:8.2-cli AS composer
 WORKDIR /app
+# Install small tooling required for Composer (zip/unzip/git/curl)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    zip unzip git curl ca-certificates && rm -rf /var/lib/apt/lists/*
 COPY composer.json composer.lock ./
-# Force Composer to treat the platform PHP version as 8.2 so packages that
-# declare an upper PHP version bound (e.g. ~8.4) will still install correctly
-# during this build stage even if the builder image reports PHP 8.5.
-RUN composer config platform.php 8.2 && \
-    composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
+# Install Composer and install PHP dependencies using PHP 8.2 so composer.lock
+# resolution matches the runtime PHP version used in the production image.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 ######### Node build stage #########
-FROM node:18 AS nodebuilder
+FROM node:20 AS nodebuilder
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --no-audit --prefer-offline
