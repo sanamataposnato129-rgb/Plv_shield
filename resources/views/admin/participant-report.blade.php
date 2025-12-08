@@ -196,6 +196,36 @@
         box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
 
+    /* Desktop-only attachment thumbnail limits (web view) */
+    @media (min-width: 992px) {
+      .attachment-list {
+        padding-left: 0;
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin: 0 0 1rem 0;
+      }
+
+      .attachment-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-width: 520px;
+        width: 100%;
+      }
+
+      .attachment-thumb {
+        display: block;
+        width: 100%;
+        max-width: 520px;
+        max-height: 360px;
+        object-fit: cover;
+        border-radius: 6px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      }
+    }
+
     @media (max-width: 768px) {
         .img-modal {
             padding: 1rem;
@@ -550,7 +580,7 @@
                 @if($isImage)
                   <div class="thumb">
                     <a href="{{ $url }}" class="img-preview-link" data-src="{{ $url }}" data-filename="{{ basename($path) }}" data-index="{{ $imgIndex }}">
-                      <img src="{{ $url }}" alt="{{ basename($path) }}" />
+                      <img src="{{ $url }}" alt="{{ basename($path) }}" class="attachment-thumb" />
                     </a>
                   </div>
                   <div class="attachment-info">

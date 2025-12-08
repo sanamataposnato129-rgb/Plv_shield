@@ -386,6 +386,36 @@
             font-size: 0.95rem !important;
         }
 
+        /* Attachments (thumbnails) */
+        .attachment-list {
+            padding-left: 0;
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 0;
+        }
+
+        .attachment-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-width: 240px;
+        }
+
+        .thumb img {
+            display: block;
+            width: 100%;
+            max-width: 240px;
+            max-height: 160px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .img-preview-link { cursor: pointer; }
+
+
         @media (max-width: 420px) {
             .table tbody td:last-child {
                 flex-direction: column;
