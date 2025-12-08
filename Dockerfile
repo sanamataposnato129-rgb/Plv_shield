@@ -8,7 +8,11 @@
 FROM composer:2 AS composer
 WORKDIR /app
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+# Force Composer to treat the platform PHP version as 8.2 so packages that
+# declare an upper PHP version bound (e.g. ~8.4) will still install correctly
+# during this build stage even if the builder image reports PHP 8.5.
+RUN composer config platform.php 8.2 && \
+    composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 ######### Node build stage #########
 FROM node:18 AS nodebuilder
