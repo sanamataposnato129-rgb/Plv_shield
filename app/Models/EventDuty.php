@@ -10,9 +10,9 @@ class EventDuty extends Model
 {
     use HasFactory;
 
-    // This model connects to the separate Duty database. Ensure a connection
-    // named 'duty' exists in config/database.php and corresponding env vars.
-    protected $connection = 'duty';
+    // This model previously used a separate 'duty' connection. It now uses the
+    // application's default database connection (accounts/mysql) so duty
+    // tables are expected to exist in the primary database.
 
     // Table name as created in MySQL Workbench
     protected $table = 'Event_Duty';

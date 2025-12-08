@@ -11,7 +11,6 @@ class Participant extends Model
 {
     use HasFactory;
 
-    protected $connection = 'duty';
     protected $table = 'Participants';
     protected $primaryKey = 'participant_id';
 

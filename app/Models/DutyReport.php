@@ -9,7 +9,6 @@ class DutyReport extends Model
 {
     use HasFactory;
 
-    protected $connection = 'duty';
     protected $table = 'Duty_Reports';
     protected $primaryKey = 'id';
 
