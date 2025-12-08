@@ -55,14 +55,30 @@ This guide explains how to deploy this Laravel project to Render and connect it 
 
 5) Deploy & run migrations
 
-   - Trigger a deploy in Render (it will build the Docker image). If the build fails, inspect build logs.
-   - After the deploy succeeds, run migrations. Options:
-     - Use Render's **Shell** (one-off shell) to run:
-       ```bash
-       php artisan migrate --force
-       php artisan storage:link
-       ```
-     - Or run a one-off job (Render supports Jobs/One-off commands) that runs the above commands.
+    - Trigger a deploy in Render (it will build the Docker image). If the build fails, inspect build logs.
+    - After the deploy succeeds, run migrations. Because the free Render tier may not include an interactive shell, here are three approaches you can use:
+
+       Option A — (If you have Shell access):
+       - Use Render's **Shell** (one-off shell) to run:
+          ```bash
+          php artisan migrate --force
+          php artisan storage:link
+          ```
+
+       Option B — One-off Job (if your plan supports it):
+       - Create a one-off Job in Render that runs:
+          ```bash
+          php artisan migrate --force
+          php artisan storage:link
+          ```
+
+       Option C — Run migrations automatically from the container startup (recommended for free tier):
+       - Set an environment variable in the Web Service settings:
+          - `RUN_MIGRATIONS=true`
+       - The included `docker-entrypoint.sh` will attempt to run `php artisan migrate --force` (with retries) and `php artisan storage:link` during container start before launching services. The retry behavior is configurable with `MIGRATION_MAX_TRIES` and `MIGRATION_RETRY_DELAY` env vars.
+       - After migrations complete, you can unset `RUN_MIGRATIONS` or leave it set — the script will retry migrations each restart but will not block startup if retries fail.
+
+    - Choose the option that fits your Render account. If you use Option C, remember to monitor logs during the first startup to confirm migrations ran successfully.
 
 6) Files and persistent storage
 
