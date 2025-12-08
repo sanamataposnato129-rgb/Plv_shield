@@ -18,7 +18,7 @@ Write-Output "Adding files to commit..."
 git add --all
 
 Write-Output "Creating commit (if there are changes)..."
-git commit -m "chore: prepare repo for Railway deployment" 2>$null
+git commit -m "chore: prepare repo for initial remote push" 2>$null
 if ($LASTEXITCODE -ne 0) {
     Write-Output "No commit created (no changes) or commit failed. Continuing to push.";
 }

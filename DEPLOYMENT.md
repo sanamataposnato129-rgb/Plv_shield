@@ -18,60 +18,13 @@ Railway setup checklist:
    - `APP_KEY` (generate with `php artisan key:generate --show` and paste value)
    - If you use the second DB connection (`duty`), add `DB_DUTY_*` values.
 4. After the first deploy, run migrations from Railway console or via CLI:
-   - `php artisan migrate --force`
-   - `php artisan storage:link`
+   ````markdown
+   Deployment notes (Railway references removed)
+   ===========================================
 
-   Quick local Git / GitHub steps
-   --------------------------------
+   Railway-specific deployment notes were removed from this file. See `DEPLOY_RENDER.md` for instructions on deploying this project to Render (including connecting a MySQL database or other managed database provider).
 
-   If you haven't created a GitHub repo yet, pick a repo name (suggestion: `plv_shield`) and run these commands locally in PowerShell to push this project:
+   If you previously relied on Railway secrets or environment variables, remove them from your CI/CD secrets and replace with Render environment variables when you configure the Render service.
 
-   ```powershell
+   ````
    # configure git user for this repo (sets name/email locally)
-   git config user.name "andesjhomel1-crypto"
-   git config user.email "andesjhomel1@gmail.com"
-
-   # Option A: run the helper script included in `scripts/push_to_github.ps1`
-   # This will initialize the repo if needed and push to your premade repo `shield_website`.
-   .
-   \scripts\push_to_github.ps1
-
-   # Option B: run the git commands manually (use this if you prefer):
-   git init
-   git add --all
-   git commit -m "chore: prepare repo for Railway deployment"
-   git branch -M main
-   git remote add origin https://github.com/andesjhomel1-crypto/shield_website.git
-   git push -u origin main
-   ```
-
-   Notes:
-   - If you prefer a different repo name, replace `plv_shield` in the `git remote add` URL.
-   - If you use HTTPS remotes you'll need to authenticate with GitHub (use a PAT if required); you can also set up SSH keys and use an SSH remote.
-   Notes:
-   - The included `scripts/push_to_github.ps1` is preconfigured to push to `https://github.com/andesjhomel1-crypto/shield_website.git`.
-   - Run the script from the project root in PowerShell; ensure `git` is installed and you can authenticate with GitHub (PAT or SSH).
-
-   Railway checklist (final)
-   -------------------------
-
-   - Ensure Railway project has a MySQL plugin (or other DB) and copy the credentials.
-   - In Railway Variables, set at minimum:
-      - `APP_ENV=production`
-      - `APP_DEBUG=false`
-      - `APP_URL=https://<your-railway-domain>`
-      - `DB_CONNECTION=mysql`
-      - `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
-      - `APP_KEY` (generate locally with `php artisan key:generate --show` and paste value)
-      - `FILESYSTEM_DISK=s3` + AWS_* env if you need persistent file storage (recommended for uploads)
-      - `DB_DUTY_*` variables if you use the secondary duty DB connection
-
-   - Deploy via Railway by connecting the GitHub repo or running `railway up` from your machine (requires Railway CLI and login).
-   - After deploy, run migrations and link storage:
-      - `php artisan migrate --force`
-      - `php artisan storage:link`
-
-Notes & troubleshooting
-- The Dockerfile installs PHP extensions and runs `php-fpm` + `nginx` in the container. If Railway uses a different runtime, you may prefer to use Railway's default PHP buildpack instead of this Dockerfile.
-- If the Railway CLI `railway up` step fails in the workflow, check the Actions logs and consider running Railway deployment manually from your machine to debug.
-- For file uploads, consider using S3 (set `FILESYSTEM_DISK=s3` and add AWS_* env vars) — Railway's ephemeral filesystems may not persist uploads across redeploys.
