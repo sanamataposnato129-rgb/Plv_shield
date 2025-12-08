@@ -46,6 +46,12 @@ This guide explains how to deploy this Laravel project to Render and connect it 
    - `DB_USERNAME` — database user
    - `DB_PASSWORD` — database password
 
+      Note about Railway MySQL: Railway often provides a single connection string in the form `mysql://user:pass@host:port/dbname` (usually exposed as `DATABASE_URL`). This project now supports providing that URL directly. You can either:
+      - Paste the full Railway `DATABASE_URL` into Render as `DATABASE_URL` (recommended), or
+      - Fill the individual `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` variables with the values Railway shows.
+
+      If you have a secondary database (the app uses a `duty` connection), Railway may provide a second URL — set it as `DB_DUTY_URL` or set the individual `DB_DUTY_*` env vars.
+
    Additional recommended env vars:
    - `FILESYSTEM_DISK=s3` (recommended for persistent uploads) and the AWS_* keys if using S3
    - Email config (`MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS`)
