@@ -59,3 +59,36 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# PLV SHIELD
+
+## Laravel Cloud Deployment
+
+This project is ready for deployment to Laravel Cloud or Heroku-style platforms.
+
+### Requirements
+- PHP 8.1+
+- Composer
+- Node.js (for frontend assets)
+
+### Setup
+1. Copy `.env.example` to `.env` and set your production values.
+2. Run `composer install --optimize-autoloader --no-dev`.
+3. Run `php artisan key:generate`.
+4. Run `php artisan migrate --force`.
+5. Build assets: `npm install && npm run build`.
+
+### Deployment
+- The included `Procfile` is for Heroku/Laravel Cloud. It serves the app from `public/`.
+- Make sure `storage/` and `bootstrap/cache/` are writable by the web server.
+- Do not commit your `.env` file.
+
+### Useful Commands
+```
+php artisan config:cache
+php artisan route:cache
+php artisan migrate --force
+```
+
+---
+For support, contact the project maintainer.
