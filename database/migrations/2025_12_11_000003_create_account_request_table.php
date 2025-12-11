@@ -16,9 +16,18 @@ return new class extends Migration {
             $table->unsignedBigInteger('reviewed_by')->nullable();
             $table->timestamp('reviewed_at')->nullable();
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            // Uncomment if reviewed_by should reference admin table
+            // $table->foreign('reviewed_by')->references('admin_id')->on('admin')->onDelete('set null');
         });
     }
     public function down() {
+        // Drop foreign key first if it exists
+        Schema::table('account_request', function (Blueprint $table) {
+            // Use try/catch to avoid errors if FK doesn't exist
+            try {
+                $table->dropForeign(['reviewed_by']);
+            } catch (\Exception $e) {}
+        });
         Schema::dropIfExists('account_request');
     }
 };
