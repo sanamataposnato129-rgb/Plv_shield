@@ -1,15 +1,12 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    public function up()
-    {
-        Schema::create('Student', function (Blueprint $table) {
-            $table->id('user_id');
+return new class extends Migration {
+    public function up() {
+        Schema::create('student', function (Blueprint $table) {
+            $table->bigIncrements('user_id');
             $table->string('plv_student_id', 20)->unique();
             $table->string('email', 100)->unique();
             $table->string('first_name', 50);
@@ -20,9 +17,7 @@ return new class extends Migration
             $table->timestamp('last_login')->nullable();
         });
     }
-
-    public function down()
-    {
-        Schema::dropIfExists('Student');
+    public function down() {
+        Schema::dropIfExists('student');
     }
-};  
+};
